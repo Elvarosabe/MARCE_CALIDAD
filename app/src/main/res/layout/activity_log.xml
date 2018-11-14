@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LogActivity"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="128dp"
+        android:layout_marginTop="90dp"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="30dp"
+            android:text="AUDITOR:"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="35dp" />
+
+        <Spinner
+            android:id="@+id/combo_logueo"
+            android:layout_width="378dp"
+            android:layout_height="69dp"
+            android:layout_marginLeft="80dp"
+            android:layout_marginTop="30dp" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <Button
+            android:layout_width="267dp"
+            android:layout_height="104dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="300dp"
+            android:text="CONTINUAR"
+            android:onClick="continuar"
+            android:textSize="40dp" />
+
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

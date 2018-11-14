@@ -1,0 +1,1225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Defectos_Activity">
+
+
+    <TableLayout
+        android:id="@+id/tabla_medidas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp">
+
+        <TableRow
+            android:background="@color/gray"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="DEFECTOS \n FAMILIA"
+                android:textAlignment="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="BOXER \n"
+                android:textAlignment="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="PANTYS \n"
+                android:textAlignment="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="POLOS \n"
+                android:textAlignment="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="T-SHIRT\n"
+                android:textAlignment="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="LINEA\n BLANCA"
+                android:textAlignment="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="PANTALONES\n"
+                android:textAlignment="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="BUSOS\n"
+                android:textAlignment="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="CHAQUETAS\n"
+                android:textAlignment="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="BRASSIER\n"
+                android:textAlignment="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TOPS\n"
+                android:textAlignment="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="MAMELUCOS\n"
+                android:textAlignment="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+        </TableRow>
+
+        <TableRow
+            android:background="@color/white"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="PESTAÑA \n DISPAREJA"
+                android:textAlignment="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="Seleccionar"
+                android:id="@+id/sel11"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/sel12"
+                android:text="Seleccionar"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/sel13"
+                android:text="Seleccionar"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:id="@+id/sel14"
+                android:text="Seleccionar"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="Seleccionar"
+                android:id="@+id/sel15"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:id="@+id/sel16"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="Seleccionar"
+                android:id="@+id/sel17"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="Seleccionar"
+                android:id="@+id/sel18"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="Seleccionar"
+                android:id="@+id/sel19"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:id="@+id/sel110"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:text="Seleccionar"
+                android:layout_weight="1"
+                android:id="@+id/sel111"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow
+            android:background="@color/white"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="DESCOSIDO \n ZAFADO"
+                android:textAlignment="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/sel21"
+                android:text="Seleccionar"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:id="@+id/sel22"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:text="Seleccionar"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/sel23"
+                android:text="Seleccionar"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="Seleccionar"
+                android:id="@+id/sel24"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/sel25"
+                android:text="Seleccionar"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="Seleccionar"
+                android:id="@+id/sel26"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="Seleccionar"
+                android:id="@+id/sel27"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:text="Seleccionar"
+                android:layout_weight="1"
+                android:id="@+id/sel28"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="Seleccionar"
+                android:id="@+id/sel29"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/sel210"
+                android:text="Seleccionar"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/sel211"
+                android:text="Seleccionar"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+        </TableRow>
+
+        <TableRow
+            android:background="@color/white"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="BASTA \n "
+                android:textAlignment="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:id="@+id/sel31"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/sel32"
+                android:text="Seleccionar"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="Seleccionar"
+                android:id="@+id/sel33"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:id="@+id/sel34"
+                android:text="Seleccionar"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:id="@+id/sel35"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:id="@+id/sel36"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:id="@+id/sel37"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:id="@+id/sel38"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:id="@+id/sel39"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:id="@+id/sel310"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:id="@+id/sel311"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+        </TableRow>
+
+        <TableRow
+            android:background="@color/white"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="RECOGIDO \n "
+                android:textAlignment="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:id="@+id/sel41"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:id="@+id/sel42"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:id="@+id/sel43"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="Seleccionar"
+                android:gravity="center"
+                android:id="@+id/sel44"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:id="@+id/sel45"
+                android:text="Seleccionar"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:text="Seleccionar"
+                android:id="@+id/sel46"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:id="@+id/sel47"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:id="@+id/sel48"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="Seleccionar"
+                android:gravity="center"
+                android:id="@+id/sel49"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:id="@+id/sel410"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:id="@+id/sel411"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+        </TableRow>
+
+        <TableRow
+            android:background="@color/white"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="INFORMACION DE \n MARQUILLAS CORRECTAS"
+                android:textAlignment="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:text="Seleccionar"
+                android:id="@+id/sel51"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:id="@+id/sel52"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:id="@+id/sel53"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/sel54"
+                android:text="Seleccionar"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="Seleccionar"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:id="@+id/sel55"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:id="@+id/sel56"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:text="Seleccionar"
+                android:id="@+id/sel57"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:id="@+id/sel58"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:id="@+id/sel59"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:id="@+id/sel510"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:id="@+id/sel511"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+        </TableRow>
+
+
+        <TableRow
+            android:background="@color/white"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="ASIMETRÍA \n"
+                android:textAlignment="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/sel61"
+                android:text="Seleccionar"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:id="@+id/sel62"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:text="Seleccionar"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/sel63"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:id="@+id/sel64"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:id="@+id/sel65"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:id="@+id/sel66"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="Seleccionar"
+                android:id="@+id/sel67"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:id="@+id/sel68"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:id="@+id/sel69"
+                android:text="Seleccionar"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="Seleccionar"
+                android:id="@+id/sel610"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="Seleccionar"
+                android:gravity="center"
+                android:id="@+id/sel611"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+        </TableRow>
+
+        <TableRow
+            android:background="@color/white"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="ROTO \n TEXTIL"
+                android:textAlignment="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:id="@+id/sel71"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:id="@+id/sel72"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:id="@+id/sel73"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:text="Seleccionar"
+                android:id="@+id/sel74"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:text="Seleccionar"
+                android:id="@+id/sel75"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:id="@+id/sel76"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:id="@+id/sel77"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="Seleccionar"
+                android:gravity="center"
+                android:id="@+id/sel78"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="Seleccionar"
+                android:id="@+id/sel79"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:id="@+id/sel710"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:text="Seleccionar"
+                android:layout_weight="1"
+                android:id="@+id/sel711"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+        </TableRow>
+
+        <TableRow
+            android:background="@color/white"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="MARQUILLA TRANSFER/ \n MANCHADA/ QUEMADA/ \n CHAFADA/ ZAFADA/\n MAL UBICADA"
+                android:textAlignment="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="Seleccionar"
+                android:id="@+id/sel81"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="Seleccionar"
+                android:gravity="center"
+                android:id="@+id/sel82"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:id="@+id/sel83"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:text="Seleccionar"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/sel84"
+                android:text="Seleccionar"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/sel85"
+                android:text="Seleccionar"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:id="@+id/sel86"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/sel87"
+                android:textSize="10dp"
+                android:text="Seleccionar"
+                android:textStyle="bold" />
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:id="@+id/sel88"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="Seleccionar"
+                android:id="@+id/sel89"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/sel810"
+                android:text="Seleccionar"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Seleccionar"
+                android:textSize="10dp"
+                android:id="@+id/sel811"
+                android:textStyle="bold" />
+
+        </TableRow>
+
+
+    </TableLayout>
+
+
+
+
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_gravity="center"
+        android:text="CONFIRMAR"
+        android:onClick="confirmacion_defectos"
+        />
+
+
+
+</LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</LinearLayout>

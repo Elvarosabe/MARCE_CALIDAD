@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Main_Marce_Activity">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="122dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:text="CONTEO"
+        android:textSize="100dp"/>
+
+    <TextView
+        android:id="@+id/conteo_unidades"
+        android:layout_width="match_parent"
+        android:layout_height="177dp"
+        android:gravity="center"
+        android:layout_marginTop="60dp"
+        android:text="088"
+        android:textSize="90dp"
+        android:textStyle="bold"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="40dp"
+        android:orientation="vertical">
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="+1"
+            android:textSize="80dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:id="@+id/boton_contador"
+            android:onClick="contador"
+            android:layout_marginTop="80dp"
+            android:enabled="false"/>
+
+        <Button
+            android:id="@+id/boton_defectos"
+            android:layout_width="match_parent"
+            android:layout_height="116dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="40dp"
+            android:onClick="defectuosidad"
+            android:text="DEFECTUOSIDAD"
+            android:textColor="@color/red"
+            android:textSize="60dp" />
+
+
+
+
+
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

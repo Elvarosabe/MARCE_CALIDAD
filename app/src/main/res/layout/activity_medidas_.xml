@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Medidas_Activity"
+    android:orientation="vertical">
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TableLayout
+        android:id="@+id/tabla_medidas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp">
+
+        <TableRow
+            android:background="@color/gray"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_weight="1"
+                android:text="MEDIDA"
+                android:textAlignment="center"
+                android:textSize="40dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:text="MUESTRA"
+                android:textAlignment="center"
+                android:textSize="40dp"
+                android:textStyle="bold" />
+
+        </TableRow>
+
+
+    </TableLayout>
+</ScrollView>
+
+ <LinearLayout
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:layout_marginTop="80dp"
+     android:orientation="vertical">
+
+     <Button
+         android:layout_width="118dp"
+         android:layout_height="match_parent"
+         android:layout_gravity="center"
+         android:gravity="center"
+         android:textSize="20dp"
+         android:text="VALIDAR" />
+
+
+ </LinearLayout>
+
+
+</LinearLayout>
