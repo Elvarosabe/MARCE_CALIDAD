@@ -21,16 +21,18 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Barcode_Activity extends AppCompatActivity {
 
 
     EditText cod_bongo;
     String Codigo_bongo="";
-
 
 
     //Definicion de Cadenas para peticion al servidor
@@ -40,25 +42,29 @@ public class Barcode_Activity extends AppCompatActivity {
 
     //String separador de comando recibido
     String separador_comando="";
-
+    String paquete_recibido="";
 
     //Intent para cambio de actividad y envío de extras
     Intent intent_omitir;
 
     //Informacion a recibir cuando se envía el codigo de bongo
     String planta="";
+    String canaleta="";
     String codigo_referencia ="";
     String nombre_referencia="";
     String unidades_talla="";
     String Orden_corte="";
+
     ArrayList<String> modulo = new ArrayList<String>();
     ArrayList<String> talla = new ArrayList<String>();
     ArrayList<String> color_obtenido = new ArrayList<String>();
 
 
     //Informacion del servidor a enviar la peticion
-    private static final int SERVERPORT = 60000;  //PUERTO
-    private static final String ADDRESS = "10.40.56.244";    //IP ESTATICA SERVIDOR
+    private static final int SERVERPORT = 54986;  //PUERTO AL CUAL ENVÍA
+    private static final int RECEIVEDPORT= 54980; //PUERTO ESCUCHA
+    private static final String ADDRESS = "192.168.137.1";    //IP ESTATICA SERVIDOR
+
 
 
 
@@ -70,7 +76,6 @@ public class Barcode_Activity extends AppCompatActivity {
 
         //Enlace XML
         cod_bongo = (EditText) findViewById(R.id.codigo_bongo);
-
 
 
         //Obtener IP DISPOSITIVO
@@ -85,20 +90,18 @@ public class Barcode_Activity extends AppCompatActivity {
                 //If the keyevent is a key-down event on the "enter" button
                 if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     //...
-
                     Codigo_bongo = cod_bongo.getText().toString(); //obtengo el código para consultar
-                   // Toast.makeText(getApplicationContext(), Codigo_bongo, Toast.LENGTH_SHORT).show();
+
 
                     //Cadena para peticion C;PMB;COD_BONGO;IP_DISPOSITIVO;RTC_TIME
-                    peticion = "C"+';'+"PMB"+';'+Codigo_bongo+ip_dispositivo+';'+Integer.toString(RTC_time);
-                    PETICION myQuery = new PETICION();
+                    peticion = "C"+';'+"PMB"+';'+Codigo_bongo+';'+ip_dispositivo+';'+Integer.toString(RTC_time);
                     if(!(Codigo_bongo.equals("")))  //Verificar que el codigo pistoleado no este vacío
                     {
+                        PETICION myQuery = new PETICION();
                         myQuery.execute(peticion);
                     }
                     else
                         Toast.makeText(getApplicationContext(), "No se ha recibido código", Toast.LENGTH_SHORT).show();
-
 
                     // ...
                     return true;
@@ -108,8 +111,6 @@ public class Barcode_Activity extends AppCompatActivity {
         });
 
 
-
-
     } //Fin onCreate
 
     //Funcion al presionar el boton omitir
@@ -117,11 +118,19 @@ public class Barcode_Activity extends AppCompatActivity {
     {
         //Intent para ir hacía la siguiente actividad (en este caso selecction activity)
         intent_omitir = new Intent(Barcode_Activity.this,Selection_Activity.class);
+        intent_omitir.putExtra("IP",ip_dispositivo); //Ip dispositivo
         startActivity(intent_omitir); //Inicia la actividad
 
     }//fin boton omitir
 
 
+    public void llamado_sincronica()
+    {
+        paquete_recibido="";
+        PETICION myQuery = new PETICION();
+        peticion = "C"+';'+"PMB"+';'+Codigo_bongo+';'+ip_dispositivo+';'+Integer.toString(RTC_time);
+        myQuery.execute(peticion);
+    }
 
     //**************************FUNCION ASINCRONA PARA PETICION *******************************************************
     class PETICION extends AsyncTask<String,Void,String>
@@ -142,25 +151,36 @@ public class Barcode_Activity extends AppCompatActivity {
                 DatagramPacket packet= new DatagramPacket(message,msg_length,local,SERVERPORT);
                 socket.send(packet);  //Envío del paquete
 
-
-                //Recepcion del paquete
-                DatagramSocket RECIVED_PACKET = new DatagramSocket(SERVERPORT);
-                byte[] recibido = new byte[8000];
-                DatagramPacket recived = new DatagramPacket(recibido,recibido.length);
-                Log.i("UDP client: ", "about to wait to receive");
-                RECIVED_PACKET.setSoTimeout(4000);   //Tiempo de espera para la recepcion del paquete 4 segundos
-                RECIVED_PACKET.receive(recived);
-                String text = new String(recibido, 0, recived.getLength());
-
-
-
-
-            } catch (SocketException e) {
+            }
+            catch (IOException e) {
                 e.printStackTrace();
-            } catch (UnknownHostException e) {
+            }
+
+
+            //RECEPCION DEL PAQUETE
+                byte[] lMsg = new byte[1500];
+                DatagramPacket dp = new DatagramPacket(lMsg, lMsg.length);
+                DatagramSocket ds = null;
+            try
+            {
+                ds = new DatagramSocket(RECEIVEDPORT); //Puerto DE ESCUCHA
+                ds.setSoTimeout(10000);
+                ds.receive(dp);  //Recibo la respuesta del servidor
+                paquete_recibido = new String(lMsg, 0, dp.getLength());
+            }catch (SocketTimeoutException e) {
+                Log.i("I/UDP Client", "No llego nada");
+                llamado_sincronica();
+            }
+            catch (SocketException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
+
+            }
+            catch (IOException e) {
                 e.printStackTrace();
+            }finally {
+                if (ds != null) {
+                    ds.close();
+                }
             }
 
 
@@ -175,30 +195,35 @@ public class Barcode_Activity extends AppCompatActivity {
         protected void onPostExecute(String value)
         {
 
-            //Separo la cadena obtenida con la informacion
-            StringTokenizer tokens = new StringTokenizer(value, ";");
-            separador_comando = tokens.nextToken(); //Contiene el comando recibido desde el servidor
+            Toast.makeText(getApplicationContext(), "Entre al post execute "+  paquete_recibido, Toast.LENGTH_SHORT).show();
 
-            //En este punto añado los items a los que corresponden a ser listas
-            //ejemplo
-            // modulo.Add("modulo..");
+                //Separo la cadena obtenida con la informacion
+                //StringTokenizer tokens = new StringTokenizer(paquete_recibido, ";");
+                //separador_comando = tokens.nextToken(); //Contiene el comando recibido desde el servidor
 
 
-
-            //Intent para ir hacía la siguiente actividad (en este caso selecction activity)
-
-            intent_omitir = new Intent(Barcode_Activity.this,Selection_Activity.class);
-            //Envío de Info a la proxima actividad
-            intent_omitir.putExtra("Planta",planta);
-            intent_omitir.putExtra("miModulo", modulo); //Arraystring serializable*
-            intent_omitir.putExtra("CodRef",codigo_referencia);
-            intent_omitir.putExtra("NomRef",nombre_referencia);
-            intent_omitir.putExtra("miTalla",talla);    //Arraystring serializable*
-            intent_omitir.putExtra("miColor",color_obtenido);   //Arraystring serializable*
-            intent_omitir.putExtra("OrdenCorte",Orden_corte);
-            startActivity(intent_omitir); //Inicia la actividad
+                //En este punto añado los items a los que corresponden a ser listas
+                //ejemplo
+                // modulo.Add("modulo..");
 
 
+
+                //Intent para ir hacía la siguiente actividad (en este caso selecction activity)
+
+               /*
+                intent_omitir = new Intent(Barcode_Activity.this,Selection_Activity.class);
+                //Envío de Info a la proxima actividad
+                intent_omitir.putExtra("Planta",planta);
+                intent_omitir.putExtra("Canaleta",canaleta);
+                intent_omitir.putExtra("miModulo", modulo); //Arraystring serializable*
+                intent_omitir.putExtra("CodRef",codigo_referencia);
+                intent_omitir.putExtra("NomRef",nombre_referencia);
+                intent_omitir.putExtra("miTalla",talla);    //Arraystring serializable*
+                intent_omitir.putExtra("miColor",color_obtenido);   //Arraystring serializable*
+                intent_omitir.putExtra("OrdenCorte",Orden_corte);
+               intent_omitir.putExtra("IP",ip_dispositivo); //Ip dispositivo
+                startActivity(intent_omitir); //Inicia la actividad
+                */
 
         }
 
