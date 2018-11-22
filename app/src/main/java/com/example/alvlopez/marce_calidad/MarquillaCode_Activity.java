@@ -18,6 +18,8 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 public class MarquillaCode_Activity extends AppCompatActivity {
 
@@ -30,34 +32,55 @@ public class MarquillaCode_Activity extends AppCompatActivity {
     String Codigo_marquillaref="";
     int RTC_time;
 
-    //Definicion de Cadenas para peticion al servidor
+    //Definicion de Cadenas para peticiones al servidor
     String peticion_ref="";
     String peticion_estabilidad="";
 
 
-    //Info a llenar segun lo que se reciba de la BD
+    //Strings para almacenar Respuesta a las peticiones del servidor
 
-    String codigo_referencia ="";
-    String nombre_referencia="";
-    String unidades_talla="";
-    String modulo = "";
-    String talla = "";
-    String color_obtenido="";
-    String canaleta="";
-
-
-    String paquete_recibido="";
-    String paquete_estabilidad="";
-
-
-    String existe_estabilidad="";
+    //Respuesta a marquilla ref
+    String cabecera_ref="";            //S
+    String separador_comando_ref="";  //PMREF
+    String respuesta_planta="";
+    String respuesta_codigo_ref = "";
+    String respuesta_talla="";
+    String respuesta_color="";
+    String respuesta_unidades_talla="";
+    String respuesta_orden_corte="";
+    String respuesta_nom_ref="";
 
 
 
-    //Strings para informacion proveniente de la anterior actividad (Selection Aactivity)
+    //RESPUESTA A SOLICITUD DE EXISTENCIA DE ESTABILIDAD
+   String cabecera_estabilidad="";          //S
+    String  separador_comando_estab="";     //PMESTAB
+    String existe_estabilidad="";           //¿EXISTE ESTAB?
+    String valor_estabilidad="";            //VALOR ESTAB
+
+
+
+    String paquete_recibido="";  //Respuesta del servidor para peticion de Marquilla Ref
+    String paquete_estabilidad=""; //RESPUESTA DEL SERVIDOR PARA PETICION DE EXISTENCIA DE ESTABILIDIDAD
+
+
+
+
+
+    //Info proveniente de la ACTIVIDAD ANTERIOR
     String planta="";               //me la deben enviar de la actividad anterior
+    String canaleta="";
     String direccion_ip="";
-    String orden_corte="";
+    String Codigo_referencia="";
+    String Nombre_referencia="";
+    ArrayList<String> modulo_recibido = new ArrayList<String>(); //Lista de valores modulo (en realidad esto no se muestra en la interfaz)
+    ArrayList<String> lista_talla = new ArrayList<String>(); //Lista de valores para talla
+    ArrayList<String> lista_color = new ArrayList<String>(); //Lista de valores para color
+    ArrayList<String> unid_talla = new ArrayList<String>(); //Lista de valores para unidadesxtalla
+    ArrayList<String> lista_orden_Corte = new ArrayList<String>(); //Lista de valores para orden de corte
+
+
+
 
     //Informacion del servidor a enviar la peticion
     private static final int SERVERPORT = 54986;  //PUERTO AL CUAL ENVÍA
@@ -77,12 +100,19 @@ public class MarquillaCode_Activity extends AppCompatActivity {
 
 
 
+
         //Recibo Extras de la anterior Actividad *********
         Bundle extras = getIntent().getExtras();       //me permite almacenar los extras, y recibir la info del intent
+        planta= extras.getString("PLANTA");
+        canaleta=extras.getString("CANALETA");
+        Codigo_referencia = extras.getString("CODREF");
+        Nombre_referencia= extras.getString("NOMREF");
+        lista_talla=  getIntent().getStringArrayListExtra("TALLA");
+        lista_color = getIntent().getStringArrayListExtra("COLOR");
         direccion_ip= extras.getString("IP");
-        orden_corte = extras.getString("OrdenCorte");
-        canaleta=extras.getString("Canaleta");
-        planta= extras.getString("Planta");
+        lista_orden_Corte = getIntent().getStringArrayListExtra("OrdenCorte");
+
+
 
 
         //Manejo del Enter luego de haber pistoleado
@@ -93,11 +123,8 @@ public class MarquillaCode_Activity extends AppCompatActivity {
                     //...
 
                     Codigo_marquillaref = cod_marquilla.getText().toString(); //obtengo el código para consultar
-                    //Debo llamar a la funcion asincrona que se encarga de la consulta en la BD de la info del codigo
-                    //en el post execute del asynctask debo abrir el dialog box para desplegar la info, asociarla a las vbles y confirmar
 
-                    //Cadena para peticion C;PMREF;COD_BONGO;IP_DISPOSITIVO;RTC_TIME
-                    peticion_ref = "C"+';'+"PMREF"+';'+Codigo_marquillaref+';'+direccion_ip+';'+Integer.toString(RTC_time);
+                    peticion_ref = "C"+';'+"PMREF"+';'+Codigo_marquillaref+';'+direccion_ip;
                     if(!(Codigo_marquillaref.equals("")))  //Verificar que el codigo pistoleado no este vacío
                     {
                         PETICION_REF myQuery = new PETICION_REF();
@@ -105,10 +132,6 @@ public class MarquillaCode_Activity extends AppCompatActivity {
                     }
                     else
                         Toast.makeText(getApplicationContext(), "No se ha recibido código", Toast.LENGTH_SHORT).show();
-
-
-
-
 
                     // ...
                     return true;
@@ -133,9 +156,10 @@ public class MarquillaCode_Activity extends AppCompatActivity {
     public void verificar_estabilidad() //VERIFICA EXISTENCIA DE ESTABILIDAD
 
     {
+
         paquete_estabilidad="";
         PETICION_ESTABILIDAD myestabilidad = new PETICION_ESTABILIDAD();
-        peticion_estabilidad= "C"+';'+"PMESTAB"+';'+codigo_referencia +';'+orden_corte+';'+planta+';'+canaleta+';'+direccion_ip+';'+Integer.toString(RTC_time);
+        peticion_estabilidad= "C"+';'+"PMESTAB"+';'+respuesta_planta +';'+canaleta+';'+respuesta_codigo_ref+';'+respuesta_nom_ref+';'+respuesta_talla+';'+respuesta_color+';'+respuesta_orden_corte+';'+direccion_ip;
         myestabilidad.execute(peticion_estabilidad);
 
     }
@@ -174,7 +198,7 @@ public class MarquillaCode_Activity extends AppCompatActivity {
                 ds = new DatagramSocket(RECEIVEDPORT); //Puerto DE ESCUCHA
                 ds.setSoTimeout(10000);
                 ds.receive(dp);  //Recibo la respuesta del servidor
-                paquete_recibido = new String(lMsg, 0, dp.getLength());
+                paquete_recibido = new String(lMsg, 0, dp.getLength()); //Respuesta peticion Marquilla Ref
             }catch (SocketTimeoutException e) {
                 Log.i("I/UDP Client", "No llego nada");
                 llamado_sincronica();
@@ -206,9 +230,16 @@ public class MarquillaCode_Activity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Entre al post execute "+  paquete_recibido, Toast.LENGTH_SHORT).show();
 
             //Separo la cadena obtenida con la informacion
-            //StringTokenizer tokens = new StringTokenizer(paquete_recibido, ";");
-            //separador_comando = tokens.nextToken(); //Contiene el comando recibido desde el servidor
-
+            StringTokenizer token_marquilla_ref = new StringTokenizer(paquete_recibido, ";");
+            cabecera_ref = token_marquilla_ref.nextToken(); //S
+            separador_comando_ref = token_marquilla_ref.nextToken(); //PMREF
+            respuesta_planta = token_marquilla_ref.nextToken(); // Planta
+            respuesta_codigo_ref = token_marquilla_ref.nextToken(); //CODREF
+            respuesta_nom_ref = token_marquilla_ref.nextToken(); // NOMREF
+            respuesta_talla = token_marquilla_ref.nextToken(); //TALLA
+            respuesta_color = token_marquilla_ref.nextToken(); //COLOR
+            respuesta_unidades_talla = token_marquilla_ref.nextToken(); //UNIDADESXTALLA
+            respuesta_orden_corte = token_marquilla_ref.nextToken(); //OC
 
 
 
@@ -216,8 +247,8 @@ public class MarquillaCode_Activity extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
 
             builder.setMessage("Esta es la informacion obtenida  \n" +
-                    "Planta: "+ planta+"\n" + "Codigo Ref: "+ codigo_referencia +"\n" + "Talla: "+ talla+
-                    "\n" + "Color: "+ color_obtenido + "\n" + "Unidades: "+unidades_talla  );
+                    "Planta: "+ respuesta_planta+"\n" + "Codigo Ref: "+ respuesta_codigo_ref +"\n" + "Talla: "+ respuesta_talla+
+                    "\n" + "Color: "+ respuesta_color + "\n" + "Unidades: "+respuesta_unidades_talla  );
 
             // Add the buttons
             builder.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
@@ -316,12 +347,16 @@ public class MarquillaCode_Activity extends AppCompatActivity {
         protected void onPostExecute(String value)
         {
 
-            Toast.makeText(getApplicationContext(), "Entre al post execute "+  paquete_recibido, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Entre al post execute "+  paquete_estabilidad, Toast.LENGTH_SHORT).show();
+
 
             //Separo la cadena obtenida con la informacion
-            //StringTokenizer tokens = new StringTokenizer(paquete_recibido, ";");
-            //separador_comando = tokens.nextToken(); //Contiene el comando recibido desde el servidor
-            //existe_estabilidad= ASIGNO SI SI O NO
+            StringTokenizer token_existe_estabilidad = new StringTokenizer(paquete_estabilidad, ";");
+            separador_comando_estab = token_existe_estabilidad.nextToken(); //S
+            cabecera_estabilidad = token_existe_estabilidad.nextToken(); //PMESTAB
+            existe_estabilidad = token_existe_estabilidad.nextToken(); //EXISTE
+            valor_estabilidad = token_existe_estabilidad.nextToken(); //valor de la estabilidad
+
 
 
             //Verifico si existe o no estabilidad
@@ -344,7 +379,20 @@ public class MarquillaCode_Activity extends AppCompatActivity {
                         // User clicked BEFORE on the dialog
                         Intent intent_before = new Intent(MarquillaCode_Activity.this,BeforeActivity.class);
                         //Enviar todos los intents requeridos en before activity
+
+                        intent_before.putExtra("ESTAB",valor_estabilidad);
+                        intent_before.putExtra("PLANTA",respuesta_planta);
+                        intent_before.putExtra("CANALETA",canaleta);
+                        intent_before.putExtra("CODREF",respuesta_codigo_ref);
+                        intent_before.putExtra("NOMREF",respuesta_nom_ref);
+                        intent_before.putExtra("TALLA",respuesta_talla);
+                        intent_before.putExtra("COLOR",respuesta_color);
+                        intent_before.putExtra("ORDENCORTE",respuesta_orden_corte);
+                        intent_before.putExtra("UNIDTALLA",respuesta_unidades_talla);
+                        intent_before.putExtra("IP",direccion_ip);
                         startActivity(intent_before);
+
+                        //PAPAAAA VOY POR ACA MI CUCHITO LA BUENA MI PERRO DE BIEN 
                     }
                 });
 
@@ -355,7 +403,7 @@ public class MarquillaCode_Activity extends AppCompatActivity {
             }
             else
                 {
-
+                    //INDICA QUE NO EXISTE ESTABILIDAD !!!!!
                     //Va a la actividad correspondiente con la estabilidad estandar que creo que es la 0x0
                     //envía la info que adquirio del pistoleo
                 }

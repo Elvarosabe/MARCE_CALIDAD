@@ -41,28 +41,43 @@ public class Barcode_Activity extends AppCompatActivity {
     int RTC_time;
 
     //String separador de comando recibido
-    String separador_comando="";
+
     String paquete_recibido="";
+
+    //Cadenas Separadas del paquete recibido
+    String separador_comando="";
+    String cabecera="";
+    String centro="";
+    String subcentro="";
+
+    //Auxiliares valores en arreglos
+    String auxiliar_modulo="";
+    String auxiliar_talla="";
+    String auxiliar_color="";
+    String auxiliar_unidadestalla="";
+    String auxiliar_orden_corte="";
+
 
     //Intent para cambio de actividad y envío de extras
     Intent intent_omitir;
+    Intent intent_codigo;
 
     //Informacion a recibir cuando se envía el codigo de bongo
     String planta="";
     String canaleta="";
     String codigo_referencia ="";
     String nombre_referencia="";
-    String unidades_talla="";
-    String Orden_corte="";
 
     ArrayList<String> modulo = new ArrayList<String>();
     ArrayList<String> talla = new ArrayList<String>();
     ArrayList<String> color_obtenido = new ArrayList<String>();
+    ArrayList<String> unidades_talla = new ArrayList<String>();
+    ArrayList<String> Orden_corte = new ArrayList<String>();
 
 
     //Informacion del servidor a enviar la peticion
-    private static final int SERVERPORT = 54986;  //PUERTO AL CUAL ENVÍA
-    private static final int RECEIVEDPORT= 54980; //PUERTO ESCUCHA
+    private static final int SERVERPORT = 58243;  //PUERTO AL CUAL ENVÍA
+    private static final int RECEIVEDPORT= 58203; //PUERTO ESCUCHA
     private static final String ADDRESS = "192.168.137.1";    //IP ESTATICA SERVIDOR
 
 
@@ -197,40 +212,88 @@ public class Barcode_Activity extends AppCompatActivity {
 
             Toast.makeText(getApplicationContext(), "Entre al post execute "+  paquete_recibido, Toast.LENGTH_SHORT).show();
 
-                //Separo la cadena obtenida con la informacion
-                //StringTokenizer tokens = new StringTokenizer(paquete_recibido, ";");
-                //separador_comando = tokens.nextToken(); //Contiene el comando recibido desde el servidor
+            //Separo la cadena obtenida con la informacion
+            StringTokenizer token_inicial = new StringTokenizer(paquete_recibido, ";");
+            separador_comando = token_inicial.nextToken(); // S
+            cabecera =  token_inicial.nextToken(); //  PMB
+
+            if(cabecera.equals("PMB"))
+            {
+                planta = token_inicial.nextToken(); // PLANTA
+                auxiliar_modulo = token_inicial.nextToken(); //auxiliar_Modulo
+                codigo_referencia = token_inicial.nextToken(); // Cod_referencia
+                nombre_referencia = token_inicial.nextToken(); //nombre referencia
+                auxiliar_talla = token_inicial.nextToken(); // auxiliar talla
+                auxiliar_color = token_inicial.nextToken(); // auxiliar color
+                auxiliar_unidadestalla = token_inicial.nextToken();  //auxiliar unidadesxtalla
+                auxiliar_orden_corte = token_inicial.nextToken(); // auxiliar orden de corte (por si es una lista)
+                centro = token_inicial.nextToken(); // centro
+                subcentro = token_inicial.nextToken();  // subcentro
 
 
-                //En este punto añado los items a los que corresponden a ser listas
-                //ejemplo
-                // modulo.Add("modulo..");
+                //Para el MODULO
+                StringTokenizer token_modulo = new StringTokenizer(auxiliar_modulo, "#");
+                   while(token_modulo.hasMoreTokens())
+                   {
+                       modulo.add(token_modulo.nextToken()); //Voy añadiendo los elementos que hay alli a la lista
+                   }
+
+                //Para la TALLA
+                StringTokenizer token_talla = new StringTokenizer(auxiliar_talla, "#");
+                while(token_talla.hasMoreTokens())
+                {
+                    talla.add(token_talla.nextToken()); //Voy añadiendo los elementos que hay alli a la lista
+                }
+
+
+                //para el COLOR
+                StringTokenizer token_color = new StringTokenizer(auxiliar_color, "#");
+
+                while(token_modulo.hasMoreTokens())
+                {
+                    color_obtenido.add(token_color.nextToken()); //Voy añadiendo los elementos que hay alli a la lista
+                }
 
 
 
-                //Intent para ir hacía la siguiente actividad (en este caso selecction activity)
+                //para las UNIDADESXTALLA
+                // ¿aunque no estoy seguro si esto deberia ser una lista o un solo valor?
+                StringTokenizer token_unidtalla = new StringTokenizer(auxiliar_unidadestalla, "#");
+                while(token_unidtalla.hasMoreTokens())
+                {
+                    unidades_talla.add(token_color.nextToken()); //Voy añadiendo los elementos que hay alli a la lista
+                }
 
-               /*
-                intent_omitir = new Intent(Barcode_Activity.this,Selection_Activity.class);
+                //para ORDEN DE CORTE
+
+                StringTokenizer token_orden = new StringTokenizer(auxiliar_orden_corte, "#");
+                while(token_orden.hasMoreTokens())
+                {
+                    Orden_corte.add(token_color.nextToken()); //Voy añadiendo los elementos que hay alli a la lista
+                }
+
+
+                //Intent para dirigirse a la siguiente actividad
+                intent_codigo = new Intent(Barcode_Activity.this,Selection_Activity.class);
+
                 //Envío de Info a la proxima actividad
-                intent_omitir.putExtra("Planta",planta);
-                intent_omitir.putExtra("Canaleta",canaleta);
-                intent_omitir.putExtra("miModulo", modulo); //Arraystring serializable*
-                intent_omitir.putExtra("CodRef",codigo_referencia);
-                intent_omitir.putExtra("NomRef",nombre_referencia);
-                intent_omitir.putExtra("miTalla",talla);    //Arraystring serializable*
-                intent_omitir.putExtra("miColor",color_obtenido);   //Arraystring serializable*
-                intent_omitir.putExtra("OrdenCorte",Orden_corte);
-               intent_omitir.putExtra("IP",ip_dispositivo); //Ip dispositivo
+                intent_codigo.putExtra("Planta",planta);
+               // intent_omitir.putExtra("Canaleta",canaleta);
+                intent_codigo.putStringArrayListExtra("miModulo", modulo); //Arraystring serializable*
+                intent_codigo.putExtra("CodRef",codigo_referencia);
+                intent_codigo.putExtra("NomRef",nombre_referencia);
+                intent_codigo.putStringArrayListExtra("miTalla",talla);    //Arraystring serializable*
+                intent_codigo.putStringArrayListExtra("miColor",color_obtenido);   //Arraystring serializable*
+                intent_codigo.putStringArrayListExtra("Unid_talla",unidades_talla); //Arraystrin serializable*
+                intent_codigo.putStringArrayListExtra("OrdenCorte",Orden_corte);  //Arraystring serializable*
+                intent_codigo.putExtra("Centro",centro);
+                intent_codigo.putExtra("Subcentro",subcentro);
+                intent_codigo.putExtra("IP",ip_dispositivo); //Ip dispositivo
                 startActivity(intent_omitir); //Inicia la actividad
-                */
 
-        }
+            }//termina el IF de la cabecera
+
+            }//Termina el PostExecute
 
     }//Final PETICION
-
-
-
-
-
 }//Fin AppActivity
