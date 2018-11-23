@@ -64,6 +64,8 @@ public class MarquillaCode_Activity extends AppCompatActivity {
     String paquete_estabilidad=""; //RESPUESTA DEL SERVIDOR PARA PETICION DE EXISTENCIA DE ESTABILIDIDAD
 
 
+    String peticion_existencia_marce="";
+    String paquete_existencia="";       //Paquete recibido de la peticion de existencia de MARCE
 
 
 
@@ -82,13 +84,33 @@ public class MarquillaCode_Activity extends AppCompatActivity {
 
 
 
-    //Informacion del servidor a enviar la peticion
+    //Informacion del servidor a enviar la peticion de marquilla Ref
     private static final int SERVERPORT = 54986;  //PUERTO AL CUAL ENVÍA
     private static final int RECEIVEDPORT= 54980; //PUERTO ESCUCHA
     private static final String ADDRESS = "192.168.137.1";    //IP ESTATICA SERVIDOR
 
+
+
+    //INFORMACION DE LA PETICION DE VERIFICAR ESTABILIDAD
+    private static final int SERVERPORT_ESTAB = 54000;  //PUERTO AL CUAL ENVIA
+    private static final int RECEIVEDPORT_ESTAB = 54100; //PUERTO POR EL QUE ESCUCHA
+
+    //PUERTOS PARA VERIFICAR SI ESTA EN MARCE
+    private static final int SERVERPORT_MARCE= 50000;  //PUERTO AL CUAL ENVIA
+    private static final int RECEIVEDPORT_MARCE= 50100; //PUERTO POR EL QUE ESCUCHA
+
     //OJO DEBE USARSE PUERTOS DISTINTOS DE ACUERDO A LA PETICION QUE SE ESTE HACIENDO
 
+
+    //Variables para info recibida existencia MARCE
+        String separador_comando_existencia="";
+        String cabecera_existencia="";
+        String existe_marce="";
+        String planta_recibida_marce="";
+        String canaleta_recibida_marce="";
+        String codigo_operario_recibido_marce="";
+        String nombre_operario_recibido_marce="";
+        String estado_recibido_marce="";  //MONTAJE O PRODUCCION
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,8 +119,6 @@ public class MarquillaCode_Activity extends AppCompatActivity {
 
         //Enlace XML
         cod_marquilla = (EditText) findViewById(R.id.codigo_marquillaref);
-
-
 
 
         //Recibo Extras de la anterior Actividad *********
@@ -163,6 +183,23 @@ public class MarquillaCode_Activity extends AppCompatActivity {
         myestabilidad.execute(peticion_estabilidad);
 
     }
+
+
+
+    public void leer_tabla_medidas(String estabilidad) //PENDIENTE ESTA MONDAAAA
+    {
+
+        //DEBO LEER LA TABLA DE MEDIDAS CON LA ESTABILIDAD CORRESPONDIENTE
+
+    }
+
+
+
+    public void verificar_existencia_marce()
+    {
+
+    }
+
 
     //**************************FUNCION ASINCRONA PARA PETICION DE MARQUILLA REF***************************************************
     class PETICION_REF extends AsyncTask<String,Void,String>
@@ -300,7 +337,7 @@ public class MarquillaCode_Activity extends AppCompatActivity {
                 InetAddress local = InetAddress.getByName(ADDRESS);
                 int msg_length=values[0].length();
                 byte[] message = values[0].getBytes();
-                DatagramPacket packet= new DatagramPacket(message,msg_length,local,SERVERPORT);
+                DatagramPacket packet= new DatagramPacket(message,msg_length,local,SERVERPORT_ESTAB);
                 socket.send(packet);  //Envío del paquete
 
             }
@@ -315,7 +352,7 @@ public class MarquillaCode_Activity extends AppCompatActivity {
             DatagramSocket ds = null;
             try
             {
-                ds = new DatagramSocket(RECEIVEDPORT); //Puerto DE ESCUCHA
+                ds = new DatagramSocket(RECEIVEDPORT_ESTAB); //Puerto DE ESCUCHA
                 ds.setSoTimeout(10000);
                 ds.receive(dp);  //Recibo la respuesta del servidor
                 paquete_estabilidad = new String(lMsg, 0, dp.getLength());
@@ -365,16 +402,44 @@ public class MarquillaCode_Activity extends AppCompatActivity {
                 //Alertdialog preguntando si la medida se realiza antes o despues de lavado
                 AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
 
-                builder.setMessage("¿ Desea Medir Antes o Despues de Lavado ?");
+                builder.setMessage("¿ DESEA MEDIR ANTES O DESPUES DEL LAVADO ?");
 
                 // Add the buttons
                 builder.setPositiveButton("DESPUES", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // User clicked DESPUES button
+                        //ANTES DE ENVIAR LOS INTENTS DEBO LEER LA TABLA DE MEDIDAS CORRESPONDIENTE Y VERIFICAR SI TIENE MARCE O NO
+                        //PARA VER SI DEBE LOGUEARSE O SE ENCUENTRA EN MONTAJE O PRODUCCION
+
+                        //LEO LA TABLA DE MEDIDAS  ¿NO SE SI SE DEBE LEER SHA?
+                        leer_tabla_medidas(valor_estabilidad);
+                        verificar_existencia_marce(); //VERIFICO SI EXISTE MARCE
+
+                        // User clicked DESPUES button
+                        Intent intent_aftercode = new Intent(MarquillaCode_Activity.this,Main_Marce_Activity.class);
+                        intent_aftercode.putExtra("ESTAB",valor_estabilidad);
+                        intent_aftercode.putExtra("PLANTA",respuesta_planta);
+                        intent_aftercode.putExtra("CANALETA",canaleta);
+                        intent_aftercode.putExtra("CODREF",respuesta_codigo_ref);
+                        intent_aftercode.putExtra("NOMREF",respuesta_nom_ref);
+                        intent_aftercode.putExtra("TALLA",respuesta_talla);
+                        intent_aftercode.putExtra("COLOR",respuesta_color);
+                        intent_aftercode.putExtra("ORDENCORTE",respuesta_orden_corte);
+                        intent_aftercode.putExtra("UNIDTALLA",respuesta_unidades_talla);
+                        intent_aftercode.putExtra("IP",direccion_ip);
+                        intent_aftercode.putExtra("COD_OP",codigo_operario_recibido_marce); //CODIGO OPERARIO
+                        intent_aftercode.putExtra("NOM_OP",nombre_operario_recibido_marce); //NOMBRE DE OPERARIO
+                        intent_aftercode.putExtra("ESTADO_MARCE",estado_recibido_marce); //PRODUCCION O MONTAJE
+
+                        //PENDIENTE DE ENVIAR TABLA DE MEDIDA
+
+                        startActivity(intent_aftercode);
+
+
 
                     }
                 });
-                builder.setNegativeButton("ANTES", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("ANTES", new DialogInterface.OnClickListener() {   //MELA!
                     public void onClick(DialogInterface dialog, int id) {
                         // User clicked BEFORE on the dialog
                         Intent intent_before = new Intent(MarquillaCode_Activity.this,BeforeActivity.class);
@@ -392,7 +457,9 @@ public class MarquillaCode_Activity extends AppCompatActivity {
                         intent_before.putExtra("IP",direccion_ip);
                         startActivity(intent_before);
 
-                        //PAPAAAA VOY POR ACA MI CUCHITO LA BUENA MI PERRO DE BIEN 
+                        //PAPAAAA VOY POR ACA MI CUCHITO LA BUENA MI PERRO DE BIEN
+                        //EN BEFORE ACTIVITY DEBE HACER VARIAS COSAS OJO! VERIFICAR SI TIENE MARCE Y TRAER LA TABLA DE MEDIDAS INDICADA
+                        //DE ACUERDO A LA ESTABILIDAD
                     }
                 });
 
@@ -403,9 +470,41 @@ public class MarquillaCode_Activity extends AppCompatActivity {
             }
             else
                 {
-                    //INDICA QUE NO EXISTE ESTABILIDAD !!!!!
+
+
+
+
+                    //ANTES DE ENVIAR LOS INTENTS DEBO LEER LA TABLA DE MEDIDAS CORRESPONDIENTE Y VERIFICAR SI TIENE MARCE O NO
+
+
+
+
+
+
+
+                    //NO TIENE ESTABILIDAD ENTONCES DEBO HACER EL PROCESO CORRESPONDIENTE DE CUANDO NO TIENE ESTAB
                     //Va a la actividad correspondiente con la estabilidad estandar que creo que es la 0x0
-                    //envía la info que adquirio del pistoleo
+                    //YA LA INFO PISTOLEADA SE ENVÍO CON LA PETICION DE ESTABILIDAD
+
+                    Intent intent_no_estability = new Intent(MarquillaCode_Activity.this,Main_Marce_Activity.class);
+                    valor_estabilidad ="0X0";  //Voy a buscar la estabiliidad de la tabla estandar
+                    intent_no_estability.putExtra("PLANTA",respuesta_planta);
+                    intent_no_estability.putExtra("CANALETA",canaleta);
+                    intent_no_estability.putExtra("CODREF",respuesta_codigo_ref);
+                    intent_no_estability.putExtra("NOMREF",respuesta_nom_ref);
+                    intent_no_estability.putExtra("TALLA",respuesta_talla);
+                    intent_no_estability.putExtra("COLOR",respuesta_color);
+                    intent_no_estability.putExtra("ORDENCORTE",respuesta_orden_corte);
+                    intent_no_estability.putExtra("UNIDTALLA",respuesta_unidades_talla);
+                    intent_no_estability.putExtra("IP",direccion_ip);
+                    startActivity(intent_no_estability);
+
+
+
+
+
+
+
                 }
 
 
@@ -417,6 +516,139 @@ public class MarquillaCode_Activity extends AppCompatActivity {
         } //Final POST EXECUTE
 
     }//Final PETICION
+
+
+
+
+
+
+
+    //**************************FUNCION ASINCRONA PARA PETICION DE EXISTENCIA DE MARCE ***************************************************
+    class PETICION_EXISTENCIA extends AsyncTask<String,Void,String>
+    {
+
+        /**
+         * Se conecta al servidor y trata resultado
+         * */
+        @Override
+        protected String doInBackground(String... values)
+        {
+            try {
+                Log.i("I/UDP Client","Connecting. . .");
+                DatagramSocket socket = new DatagramSocket();
+                InetAddress local = InetAddress.getByName(ADDRESS);
+                int msg_length=values[0].length();
+                byte[] message = values[0].getBytes();
+                DatagramPacket packet= new DatagramPacket(message,msg_length,local,SERVERPORT_MARCE);
+                socket.send(packet);  //Envío del paquete
+
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            //RECEPCION DEL PAQUETE
+            byte[] lMsg = new byte[1500];
+            DatagramPacket dp = new DatagramPacket(lMsg, lMsg.length);
+            DatagramSocket ds = null;
+            try
+            {
+                ds = new DatagramSocket(RECEIVEDPORT_MARCE); //Puerto DE ESCUCHA
+                ds.setSoTimeout(10000);
+                ds.receive(dp);  //Recibo la respuesta del servidor
+                paquete_existencia = new String(lMsg, 0, dp.getLength());
+            }catch (SocketTimeoutException e) {
+                Log.i("I/UDP Client", "No llego nada");
+                verificar_existencia_marce();
+            }
+            catch (SocketException e) {
+                e.printStackTrace();
+
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }finally {
+                if (ds != null) {
+                    ds.close();
+                }
+            }
+
+
+            return null;
+        }
+
+
+        /**
+         * Oculta ventana emergente y muestra resultado en pantalla
+         * */
+        @Override
+        protected void onPostExecute(String value)
+        {
+
+            Toast.makeText(getApplicationContext(), "Entre al post execute "+  paquete_existencia, Toast.LENGTH_SHORT).show();
+
+            //Separo la cadena obtenida con la informacion
+            StringTokenizer token_existe_marce = new StringTokenizer(paquete_existencia, ";");
+            separador_comando_existencia = token_existe_marce.nextToken(); //S
+            cabecera_existencia = token_existe_marce.nextToken(); //PMEMARCE
+            existe_marce = token_existe_marce.nextToken(); //SI/NO
+
+            //Verifico si ESTA EN MARCE
+            if(existe_marce.equals("SI"))    //si existe o es distinta de la 0x0 que signifcaria que no existe?
+            {
+                planta_recibida_marce = token_existe_marce.nextToken();
+                canaleta_recibida_marce = token_existe_marce.nextToken();
+                codigo_operario_recibido_marce = token_existe_marce.nextToken();
+                nombre_operario_recibido_marce = token_existe_marce.nextToken();
+                estado_recibido_marce = token_existe_marce.nextToken();   //PRODUCCION O MONTAJE
+
+                //MELO PORQUE LOS INTENT SE ESTAN ENVIANDO DESDE DONDE DEBE SER DESDE
+                //EL LUGAR DONDE LLAME LA FUNCION
+
+
+            }
+            else
+            {
+
+
+                // SI MARCE NO EXISTE ENTONCES DEBE IR A LOGUEARSE EN LA OTRA ACTIVIDAD
+                Intent intent_No_marce = new Intent(MarquillaCode_Activity.this,LogActivity.class);
+                intent_No_marce.putExtra("ESTAB",valor_estabilidad);
+                intent_No_marce.putExtra("PLANTA",respuesta_planta);
+                intent_No_marce.putExtra("CANALETA",canaleta);
+                intent_No_marce.putExtra("CODREF",respuesta_codigo_ref);
+                intent_No_marce.putExtra("NOMREF",respuesta_nom_ref);
+                intent_No_marce.putExtra("TALLA",respuesta_talla);
+                intent_No_marce.putExtra("COLOR",respuesta_color);
+                intent_No_marce.putExtra("ORDENCORTE",respuesta_orden_corte);  //pendiente de enviar la orden de corte QUE DEBE SER ESPECIFICA YA
+                intent_No_marce.putExtra("UNIDTALLA",respuesta_unidades_talla); // PENDIENTE DE ENVIAR UNIDADES TALLA
+                intent_No_marce.putExtra("IP",direccion_ip);
+
+
+                //******* PENDIENTE DE ENVIAR TABLA DE MEDIDA****************
+
+                startActivity(intent_No_marce);
+
+
+
+
+
+            }
+        } //Final POST EXECUTE
+
+    }//Final PETICION
+
+
+
+
+
+
+
+
+
+
+
 
 
 

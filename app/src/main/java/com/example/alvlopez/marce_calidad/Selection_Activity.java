@@ -39,14 +39,21 @@ public class Selection_Activity extends AppCompatActivity {
     private static final String ADDRESS = "192.168.137.1";    //IP ESTATICA SERVIDOR
 
 
+    //PUERTOS PARA VERIFICAR SI ESTA EN MARCE
+    private static final int SERVERPORT_MARCE= 50000;  //PUERTO AL CUAL ENVIA
+    private static final int RECEIVEDPORT_MARCE= 50100; //PUERTO POR EL QUE ESCUCHA
+
 
     //String para peticion al servidor
     String peticion_estabilidad="";
+    String peticion_existencia_marce="";
 
 
     //Variables info recibida del servidor
 
     String paquete_estabilidad="";      //Paquete recibido de la peticion
+    String paquete_existencia="";       //Paquete recibido de la peticion de existencia de MARCE
+
 
 
     //Info proveniente de la ACTIVIDAD ANTERIOR
@@ -85,6 +92,16 @@ public class Selection_Activity extends AppCompatActivity {
     String cabecera_estabilidad="";
     String existe_estabilidad="";
     String valor_estabilidad="";    //Valor recibido de la estabilidad que posee
+
+    //Variables para info recibida existencia MARCE
+    String separador_comando_existencia="";
+    String cabecera_existencia="";
+    String existe_marce="";
+    String planta_recibida_marce="";
+    String canaleta_recibida_marce="";
+    String codigo_operario_recibido_marce="";
+    String nombre_operario_recibido_marce="";
+    String estado_recibido_marce="";  //MONTAJE O PRODUCCION
 
 
     @Override
@@ -260,7 +277,7 @@ public class Selection_Activity extends AppCompatActivity {
     }
 
     //Funcion Boton Codigo de Barras
-    public void codigo_barras(View view)
+    public void codigo_barras(View view)   //DESPUES DE LA LECTURA SE DEBE REPLICAR MCHAS DE LAS COSAS QUE SE HICIERON EN EL BOTON ACEPTAR
     {
 
         //LA DIFERENCIA ES QUE ACA SOLO DEBO HABER TENIDO SELECCIONADO PLANTA Y CANALETA
@@ -293,7 +310,7 @@ public class Selection_Activity extends AppCompatActivity {
 
 
     //Funcion Boton Aceptar
-    public void aceptar(View view)
+    public void aceptar(View view) //PENDIENTE COMPLETAR FUNCION DE LECTURA TABLA DE MEDIDAS Y DE ENVIO DE ESTA EN VARIOS INTENT
     {
         //Valor que hay en el campo de codigo referencia
         value_codigoref = cod_referencia.getText().toString();
@@ -305,6 +322,33 @@ public class Selection_Activity extends AppCompatActivity {
             {
                 //verificar si existe estabilidad alli tambien se envian los intents
                 verificar_estabilidad();
+                //*******    EN EL LLAMADO  A ESTA FUNCION REALIZA MUCHOS PROCESOS ************
+                //SI TIENE ESTABILIDAD
+                    //PREGUNTA SI VA A MEDIR ANTES O DESPUES DE LAVADO
+                        //ANTES DE LAVADO
+                            //PASO TODA LA INFO QUE LLEVO HASTA EL MOMENTO
+                            //VOY A LA ACTIVIDAD DE BEFORE ACTIVITY
+
+                        //DESPUES DE LAVADO
+                            //LEO LA TABLA DE MEDIDAS CON LA ESTABILIDAD QUE TENGO
+                            //PREGUNTA SI TIENE MARCE O NO
+                                //SI TIENE MARCE
+                                        //OBTIENE LA INFO RESPECTIVA DE MARCE
+                                        //VA A LA ACTIVIDAD MAINACTIVITY CON LOS INTENTS REQUERIDOS
+                                //NO TIENE
+                                    //DEBE IR A LA ACTIVIDAD PARA LOGUEARSE RESPECTIVAMENTE
+                                    //DESDE ESA ACTIVIDAD SE LOGUEA (TIENE QUE TENER LA INFO QUE LLEVABA DESDE AQUI)
+                                    //PASO AL MAINMARCE ACTIVITY
+                //NO TIENE ESTABILIDAD
+                    //LEE TABLA DE MEDIDAS CON LA ESTABILIDAD ESTANDAR
+                    //PREGUNTA SI TIENE MARCE O NO
+                        //SI TIENE MARCE
+                            //OBTIENE LA INFO RESPECTIVA DE MARCE
+                            //VA A LA ACTIVIDAD MAINACTIVITY CON LOS INTENTS REQUERIDOS
+                        //SI NO TIENE
+                            //DEBE IR A LA ACTIVIDAD PARA LOGUEARSE RESPECTIVAMENTE
+                                //DESDE ESA ACTIVIDAD SE LOGUEA (TIENE QUE TENER LA INFO QUE LLEVABA DESDE AQUI)
+                                //PASO AL MAINMARCE ACTIVITY
             }
 
         }
@@ -335,6 +379,25 @@ public class Selection_Activity extends AppCompatActivity {
     }
 
 
+    public void verificar_existencia_marce()
+    {
+        //Se va a llamar cuando no encuentre estabilidad y luego de haber presionado aceptar porque debe seguir el proceso con la eestab estandar y verificar si esta en marce
+        //antes de avanzar
+        paquete_existencia="";
+        PETICION_EXISTENCIA  existencia_marce = new PETICION_EXISTENCIA();
+        peticion_existencia_marce="C"+';'+"PMEMARCE"+';'+seleccion_planta +';'+seleccion_canaleta+';'+direccion_ip;
+        existencia_marce.execute(peticion_existencia_marce);
+
+
+    }
+
+
+    public void leer_tabla_medidas(String estabilidad) //PENDIENTE ESTA MONDAAAA
+    {
+
+        //DEBO LEER LA TABLA DE MEDIDAS CON LA ESTABILIDAD CORRESPONDIENTE
+
+    }
 
     //**************************FUNCION ASINCRONA PARA PETICION DE EXIST ESTABILIDAD ***************************************************
     class PETICION_ESTABILIDAD extends AsyncTask<String,Void,String>
@@ -420,6 +483,19 @@ public class Selection_Activity extends AppCompatActivity {
                 // Add the buttons
                 builder.setPositiveButton("DESPUES", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+
+                        //ANTES DE ENVIAR LOS INTENTS DEBO LEER LA TABLA DE MEDIDAS CORRESPONDIENTE Y VERIFICAR SI TIENE MARCE O NO
+                        //PARA VER SI DEBE LOGUEARSE O SE ENCUENTRA EN MONTAJE O PRODUCCION
+
+
+                        leer_tabla_medidas(valor_estabilidad);         //LEO LA TABLA DE MEDIDAS CON LA RESPECTIVA ESTABILIDAD OBTENIDA
+                        //********OJO QUE DICE LEER TABLAS DE MEDIDAS DESPUES????? **********
+                        verificar_existencia_marce(); //VERIFICO SI EXISTE MARCE
+
+                        //OJO QUE SI NO TIENE MARCE CUANDO VAYA A LA OTRA ACTIVIDAD TENGO QUE PASARLE ESTO
+                        //AQUI SOLO DEBERIA SEGUIR SI TIENE MARCE
+                        //**#*#*$ PORQUE SI NO TIENE DEBERIA IR A LA OTRA ACTIVIDAD #$#"%
+
                         // User clicked DESPUES button
                         Intent intent_after = new Intent(Selection_Activity.this,Main_Marce_Activity.class);
                         intent_after.putExtra("ESTAB",valor_estabilidad);
@@ -432,10 +508,17 @@ public class Selection_Activity extends AppCompatActivity {
                         intent_after.putExtra("ORDENCORTE",seleccion_orden_corte);  //pendiente de enviar la orden de corte QUE DEBE SER ESPECIFICA YA
                         intent_after.putExtra("UNIDTALLA",seleccion_unidades_talla); // PENDIENTE DE ENVIAR UNIDADES TALLA
                         intent_after.putExtra("IP",direccion_ip);
+                        intent_after.putExtra("COD_OP",codigo_operario_recibido_marce); //CODIGO OPERARIO
+                        intent_after.putExtra("NOM_OP",nombre_operario_recibido_marce); //NOMBRE DE OPERARIO
+                        intent_after.putExtra("ESTADO_MARCE",estado_recibido_marce); //PRODUCCION O MONTAJE
+
+                        //PENDIENTE DE ENVIAR TABLA DE MEDIDA
+
                         startActivity(intent_after);
+
                     }
                 });
-                builder.setNegativeButton("ANTES", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("ANTES", new DialogInterface.OnClickListener() { //MELA!!!
                     public void onClick(DialogInterface dialog, int id) {
                         // User clicked BEFORE on the dialog
                         Intent intent_before = new Intent(Selection_Activity.this,BeforeActivity.class);
@@ -451,6 +534,8 @@ public class Selection_Activity extends AppCompatActivity {
                         intent_before.putExtra("IP",direccion_ip);
                         startActivity(intent_before);
                         //VOY A LA ACTIVIDAD BEFORE (ANTES DE LAVADO)
+                        //EN BEFORE ACTIVITY DEBE HACER VARIAS COSAS OJO! VERIFICAR SI TIENE MARCE Y TRAER LA TABLA DE MEDIDAS INDICADA
+                        //DE ACUERDO A LA ESTABILIDAD
 
                     }
                 });
@@ -462,23 +547,173 @@ public class Selection_Activity extends AppCompatActivity {
             }
             else
             {
-                //NO TIENE ESTABILIDAD ENTONCES DEBO HACER EL PROCESO CORRESPONDIENTE DE CUANDO NO TIENE ESTAB
-                //Va a la actividad correspondiente con la estabilidad estandar que creo que es la 0x0
-                //YA LA INFO PISTOLEADA SE ENVÍO CON LA PETICION DE ESTABILIDAD
-                Intent intent_no_estability= new Intent(Selection_Activity.this,Main_Marce_Activity.class);
+
+                //CASO DONDE NO EXISTE ESTABILIDAD PAPOOOOOOOOOOO *************************
+
+
+                //DEBO LEER LA TABLA DE MEDIDAS PARA LA ESTAB ESTANDAR
                 valor_estabilidad ="0X0";  //Voy a buscar la estabiliidad de la tabla estandar
-                intent_no_estability.putExtra("VAL_ESTANDAR",valor_estabilidad);
-                intent_no_estability.putExtra("PLANTA",seleccion_planta);
-                intent_no_estability.putExtra("CANALETA",seleccion_canaleta);
-                intent_no_estability.putExtra("CODREF",value_codigoref);
-                intent_no_estability.putExtra("NOMREF",Nombre_referencia);
-                intent_no_estability.putExtra("TALLA",seleccion_talla);
-                intent_no_estability.putExtra("COLOR",seleccion_color);
-                intent_no_estability.putExtra("ORDENCORTE",seleccion_orden_corte);  //pendiente de enviar la orden de corte QUE DEBE SER ESPECIFICA YA
-                intent_no_estability.putExtra("UNIDTALLA",seleccion_unidades_talla);
-                startActivity(intent_no_estability);
+                leer_tabla_medidas(valor_estabilidad); //lectura de la tabla de medidas papo con la estab ESTANDAR
+
+                //DEBO VERIFICAR EXISTENCIA DE MARCE
+                verificar_existencia_marce(); //VERIFICO SI EXISTE MARCE
+
+                //PUEDE DARSE EL CASO QUE ESTE EN MARCE PERO NO TENGA ESTABILIDAD
+                Intent intent_no_Estabilidad = new Intent(Selection_Activity.this,Main_Marce_Activity.class);
+                intent_no_Estabilidad.putExtra("ESTAB",valor_estabilidad);
+                intent_no_Estabilidad.putExtra("PLANTA",seleccion_planta);
+                intent_no_Estabilidad.putExtra("CANALETA",seleccion_canaleta);
+                intent_no_Estabilidad.putExtra("CODREF",value_codigoref);
+                intent_no_Estabilidad.putExtra("NOMREF",Nombre_referencia);
+                intent_no_Estabilidad.putExtra("TALLA",seleccion_talla);
+                intent_no_Estabilidad.putExtra("COLOR",seleccion_color);
+                intent_no_Estabilidad.putExtra("ORDENCORTE",seleccion_orden_corte);  //pendiente de enviar la orden de corte QUE DEBE SER ESPECIFICA YA
+                intent_no_Estabilidad.putExtra("UNIDTALLA",seleccion_unidades_talla); // PENDIENTE DE ENVIAR UNIDADES TALLA
+                intent_no_Estabilidad.putExtra("IP",direccion_ip);
+                intent_no_Estabilidad.putExtra("COD_OP",codigo_operario_recibido_marce); //CODIGO OPERARIO
+                intent_no_Estabilidad.putExtra("NOM_OP",nombre_operario_recibido_marce); //NOMBRE DE OPERARIO
+                intent_no_Estabilidad.putExtra("ESTADO_MARCE",estado_recibido_marce); //PRODUCCION O MONTAJE
+                startActivity(intent_no_Estabilidad);
+
+
+
+                //PUEDE DARSE EL CASO QUE NO ESTE EN MARCE Y NO TENGA ESTABIDILIDAD
+                    //EN ESTE CASO PASA A LA ACTIVIDAD DE LOGUEO POR NO TENER MARCE
+
+
+
+
             }
         } //Final POST EXECUTE
 
     }//Final PETICION
+
+
+
+
+    //**************************FUNCION ASINCRONA PARA PETICION DE EXISTENCIA DE MARCE ***************************************************
+    class PETICION_EXISTENCIA extends AsyncTask<String,Void,String>
+    {
+
+        /**
+         * Se conecta al servidor y trata resultado
+         * */
+        @Override
+        protected String doInBackground(String... values)
+        {
+            try {
+                Log.i("I/UDP Client","Connecting. . .");
+                DatagramSocket socket = new DatagramSocket();
+                InetAddress local = InetAddress.getByName(ADDRESS);
+                int msg_length=values[0].length();
+                byte[] message = values[0].getBytes();
+                DatagramPacket packet= new DatagramPacket(message,msg_length,local,SERVERPORT_MARCE);
+                socket.send(packet);  //Envío del paquete
+
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            //RECEPCION DEL PAQUETE
+            byte[] lMsg = new byte[1500];
+            DatagramPacket dp = new DatagramPacket(lMsg, lMsg.length);
+            DatagramSocket ds = null;
+            try
+            {
+                ds = new DatagramSocket(RECEIVEDPORT_MARCE); //Puerto DE ESCUCHA
+                ds.setSoTimeout(10000);
+                ds.receive(dp);  //Recibo la respuesta del servidor
+                paquete_existencia = new String(lMsg, 0, dp.getLength());
+            }catch (SocketTimeoutException e) {
+                Log.i("I/UDP Client", "No llego nada");
+                verificar_existencia_marce();
+            }
+            catch (SocketException e) {
+                e.printStackTrace();
+
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }finally {
+                if (ds != null) {
+                    ds.close();
+                }
+            }
+
+
+            return null;
+        }
+
+
+        /**
+         * Oculta ventana emergente y muestra resultado en pantalla
+         * */
+        @Override
+        protected void onPostExecute(String value)
+        {
+
+            Toast.makeText(getApplicationContext(), "Entre al post execute "+  paquete_existencia, Toast.LENGTH_SHORT).show();
+
+            //Separo la cadena obtenida con la informacion
+            StringTokenizer token_existe_marce = new StringTokenizer(paquete_existencia, ";");
+            separador_comando_existencia = token_existe_marce.nextToken(); //S
+            cabecera_existencia = token_existe_marce.nextToken(); //PMEMARCE
+            existe_marce = token_existe_marce.nextToken(); //SI/NO
+
+            //Verifico si ESTA EN MARCE
+            if(existe_marce.equals("SI"))    //si existe o es distinta de la 0x0 que signifcaria que no existe?
+            {
+                planta_recibida_marce = token_existe_marce.nextToken();
+                canaleta_recibida_marce = token_existe_marce.nextToken();
+                codigo_operario_recibido_marce = token_existe_marce.nextToken();
+                nombre_operario_recibido_marce = token_existe_marce.nextToken();
+                estado_recibido_marce = token_existe_marce.nextToken();   //PRODUCCION O MONTAJE
+
+                //MELO PORQUE LOS INTENT SE ESTAN ENVIANDO DESDE DONDE DEBE SER DESDE
+                //EL LUGAR DONDE LLAME LA FUNCION
+
+
+            }
+            else
+            {
+
+
+                // SI MARCE NO EXISTE ENTONCES DEBE IR A LOGUEARSE EN LA OTRA ACTIVIDAD
+                Intent intent_No_marce = new Intent(Selection_Activity.this,LogActivity.class);
+                intent_No_marce.putExtra("ESTAB",valor_estabilidad);
+                intent_No_marce.putExtra("PLANTA",seleccion_planta);
+                intent_No_marce.putExtra("CANALETA",seleccion_canaleta);
+                intent_No_marce.putExtra("CODREF",value_codigoref);
+                intent_No_marce.putExtra("NOMREF",Nombre_referencia);
+                intent_No_marce.putExtra("TALLA",seleccion_talla);
+                intent_No_marce.putExtra("COLOR",seleccion_color);
+                intent_No_marce.putExtra("ORDENCORTE",seleccion_orden_corte);  //pendiente de enviar la orden de corte QUE DEBE SER ESPECIFICA YA
+                intent_No_marce.putExtra("UNIDTALLA",seleccion_unidades_talla); // PENDIENTE DE ENVIAR UNIDADES TALLA
+                intent_No_marce.putExtra("IP",direccion_ip);
+
+
+                //******* PENDIENTE DE ENVIAR TABLA DE MEDIDA****************
+
+                startActivity(intent_No_marce);
+
+
+
+
+
+            }
+        } //Final POST EXECUTE
+
+    }//Final PETICION
+
+
+
+
+
+
+
+
+
+
 }//final Appcompat
